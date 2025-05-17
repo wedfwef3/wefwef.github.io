@@ -28,7 +28,6 @@ local bondPauseDuration = 0.9
 local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local hrp = char:WaitForChild("HumanoidRootPart")
-local humanoid = char:WaitForChild("Humanoid")
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = player:FindFirstChildOfClass("PlayerGui")
@@ -58,21 +57,8 @@ end
 
 local function safeTeleport(position)
     pcall(function()
-        hrp.CFrame = CFrame.new(position)
+        hrp.CFrame = CFrame.new(position) -- Changed Position to CFrame
     end)
-end
-
-local function findAndSitInChair()
-    for i = 1, 10 do
-        local chair = workspace:FindFirstChild("RuntimeItems"):FindFirstChild("Chair")
-        if chair and chair:FindFirstChild("Seat") then
-            chair.Seat:Sit(humanoid)
-            task.wait(0.5)
-            return true
-        end
-        task.wait(0.2)
-    end
-    return false
 end
 
 task.spawn(function()
@@ -80,18 +66,9 @@ task.spawn(function()
         safeTeleport(pos)
         task.wait(duration)
 
-        if pos == Vector3.new(57, 3, 28000) then
-            local seated = findAndSitInChair()
-            if seated then
-                print("Sat in chair successfully!")
-            else
-                warn("Failed to find chair after 10 attempts.")
-            end
-        end
-
         if pos == Vector3.new(57, 3, -49032) then
             print("Reached final position, waiting 15 seconds...")
-            task.wait(15)
+            task.wait(15) -- Wait before executing loadstring
             loadstring(game:HttpGet("https://raw.githubusercontent.com/ewewe514/lowserver.github.io/refs/heads/main/lowserver.lua"))()
             print("Executed loadstring after 15 seconds.")
         end
