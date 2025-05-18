@@ -19,7 +19,7 @@ local positions = {
     Vector3.new(57, 3, -38000), Vector3.new(57, 3, -40000),
     Vector3.new(57, 3, -42000), Vector3.new(57, 3, -44000),
     Vector3.new(57, 3, -46000), Vector3.new(57, 3, -48000),
-    Vector3.new(57, 3, -49032)
+    Vector3.new(-434, 3, -48998)
 }
 
 local duration = 0.9
@@ -66,7 +66,7 @@ task.spawn(function()
         safeTeleport(pos)
         task.wait(duration)
 
-        if pos == Vector3.new(57, 3, -49032) then
+        if pos == Vector3.new(-434, 3, -48998) then
             print("Reached final position, waiting 15 seconds...")
             task.wait(15) -- Wait before executing loadstring
             loadstring(game:HttpGet("https://raw.githubusercontent.com/ewewe514/lowserver.github.io/refs/heads/main/lowserver.lua"))()
