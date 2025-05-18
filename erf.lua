@@ -103,23 +103,18 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    task.wait(2)
-
     while true do
-        task.wait(0.1)
+        local activateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Network"):WaitForChild("RemotePromise"):WaitForChild("Remotes"):FindFirstChild("C_ActivateObject")
 
-        local items = game.Workspace:WaitForChild("RuntimeItems")
+        if activateRemote then
+            local runtimeItems = game.Workspace:WaitForChild("RuntimeItems")
 
-        for _, bond in pairs(items:GetChildren()) do
-            if bond:IsA("Model") and bond.Name == "Bond" and bond.PrimaryPart then
-                local dist = (bond.PrimaryPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                if dist < 100 then
-                    game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Network"):WaitForChild("RemotePromise"):WaitForChild("Remotes"):WaitForChild("C_ActivateObject"):FireServer(bond)
-                    print("Bond collected:", bond.Name)
+            for _, bond in pairs(runtimeItems:GetChildren()) do
+                if bond:IsA("Model") and (bond.Name == "Bond" or bond.Name == "Bonds") and bond.PrimaryPart then
+                    activateRemote:FireServer(bond)
                 end
-            else
-                warn("PrimaryPart missing or object name mismatch for Bond!")
             end
         end
+        task.wait(0.1) -- Adding delay between activations
     end
 end)
